@@ -25,9 +25,6 @@ class DashboardView(ModelViewSet):
 class RegisterView(GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    
-    # authentication_classes = []
-    # permission_classes = [AllowAny]
     permission_classes = []
     
     def create(self,request):
@@ -71,14 +68,9 @@ class CategoryView(ModelViewSet):
     
 class ProductView(ModelViewSet):
     queryset = Product.objects.all().order_by('id')
-    serializer_class = ProductSerializer
-    # filter_backends = [DjangoFilterBackend]
-    
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]  # ✅ FIXED
-    filterset_fields = ['price', 'created_at', 'category']  # ✅ use model fields
-    
-    # filterset_fields = ['price','created_at']
-    # filter_backends = [filters.SearchFilter]
+    serializer_class = ProductSerializer    
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter] 
+    filterset_fields = ['price', 'created_at', 'category'] 
     
     search_fields = ['price', 'created_at','name']    
     permission_classes = []
@@ -93,7 +85,6 @@ class OrderView(ModelViewSet):
     queryset = Order.objects.all().order_by('id')
     serializer_class = orderSerializer
     permission_classes = [DjangoModelPermissions,IsAuthenticated]   
-    # filter_backends = [DjangoFilterBackend]
     filterset_fields = ['quantity','price']
     filter_backends = [filters.SearchFilter]
     search_fields = ['quantity','price'] 
